@@ -1,4 +1,4 @@
-require "redis-plus/version"
+require "redis/plus/version"
 
 module Redis
   module Plus
