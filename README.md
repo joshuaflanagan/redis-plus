@@ -1,6 +1,9 @@
 # Redis::Plus
 
-TODO: Write a gem description
+Extends the [ruby redis client](https://github.com/redis/redis-rb)
+with additional general purpose commands.
+
+Requires [Redis 2.6+](http://redis.io)
 
 ## Installation
 
@@ -18,7 +21,18 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The new commands are available directly from any `Redis` connection instance:
+
+```ruby
+r = Redis.new
+r.rpush "numbers", "one"
+r.rpush "numbers", "two"
+r.rpush "numbers", "three"
+
+# retrieve all elements of a list:
+r.lgetall "numbers"         #=> ["one", "two", "three"]
+```
+
 
 ## Contributing
 

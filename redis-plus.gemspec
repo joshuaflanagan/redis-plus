@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Redis::Plus::VERSION
   gem.authors       = ["Joshua Flanagan"]
   gem.email         = ["joshuaflanagan@gmail.com"]
-  gem.description   = %q{Adds more general purpose redis commands}
-  gem.summary       = %q{Adds more general purpose redis commands}
+  gem.description   = %q{Extends the ruby client driver with additional commands}
+  gem.summary       = %q{Extends the ruby client driver with additional commands}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
