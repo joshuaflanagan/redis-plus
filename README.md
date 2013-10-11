@@ -35,6 +35,9 @@ r.lgetall "numbers"         #=> ["one", "two", "three"]
 # retrieve the length of a string value stored in a list
 r.lstrlen "numbers", 0      #=> 3
 r.lstrlen "numbers", 2      #=> 5
+
+# retrieve a substring of a string value stored in a list
+r.lstrrange "numbers", 2, 1, 3 #=> "hre"
 ```
 
 

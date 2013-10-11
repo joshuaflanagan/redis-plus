@@ -41,4 +41,33 @@ describe "redis-plus" do
       }
     end
   end
+
+  describe "#lstrrange" do
+    it "retrieves a substring of a string value stored in a list" do
+      redis.rpush "words", "apple"
+      redis.rpush "words", "orange"
+      redis.rpush "words", "pineapple"
+
+      redis.lstrrange("words", 1, 2, 4).should == "ang"
+      redis.lstrrange("words", 2, 4, 100).should == "apple"
+      redis.lstrrange("words", 2, -5, -3).should == "app"
+      redis.lstrrange("words", 1, -100, 1).should == "or"
+    end
+
+    it "returns an empty string when the index is out of range" do
+      redis.rpush "words", "apple"
+
+      redis.lstrrange("words", 99, 1, 2).should == ""
+    end
+
+    it "raises a 'wrong kind of value' error when not used on a list" do
+      redis.set "stringval", "hello"
+
+      expect { redis.lstrrange("stringval", 0, 0, 1) }.to raise_error {|error|
+        error.should be_a Redis::CommandError
+        error.message.should  match /wrong kind of value/
+        error.message.should_not  match /running script/
+      }
+    end
+  end
 end
