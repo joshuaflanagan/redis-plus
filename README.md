@@ -31,6 +31,10 @@ r.rpush "numbers", "three"
 
 # retrieve all elements of a list:
 r.lgetall "numbers"         #=> ["one", "two", "three"]
+
+# retrieve the length of a string value stored in a list
+r.lstrlen "numbers", 0      #=> 3
+r.lstrlen "numbers", 2      #=> 5
 ```
 
 
