@@ -8,7 +8,15 @@ class Redis
     end
 
     def lstrlen(key, index)
-      self.eval "return string.len(redis.call('lrange',KEYS[1],ARGV[1],ARGV[1])[1])", [key], [index]
+      command = <<-LUA
+local v = redis.pcall('lrange',KEYS[1],ARGV[1],ARGV[1])
+if v.err then
+  return v
+else
+  return v[1] and string.len(v[1])
+end
+LUA
+      self.eval(command, [key], [index]) || 0
     end
   end
 

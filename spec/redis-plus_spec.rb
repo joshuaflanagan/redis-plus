@@ -23,6 +23,22 @@ describe "redis-plus" do
       redis.lstrlen("numbers", 0).should == 3
       redis.lstrlen("numbers", 1).should == 3
       redis.lstrlen("numbers", 2).should == 5
+      redis.lstrlen("numbers", -1).should == 5
+    end
+
+    it "returns 0 when the index is out of range" do
+      redis.lstrlen("numbers", 10).should == 0
+      redis.lstrlen("numbers", -10).should == 0
+    end
+
+    it "raises a 'wrong kind of value' error when not used on a list" do
+      redis.set "stringval", "hello"
+
+      expect { redis.lstrlen("stringval", 0) }.to raise_error {|error|
+        error.should be_a Redis::CommandError
+        error.message.should  match /wrong kind of value/
+        error.message.should_not  match /running script/
+      }
     end
   end
 end
