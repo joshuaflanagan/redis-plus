@@ -70,4 +70,28 @@ describe "redis-plus" do
       }
     end
   end
+
+  describe "#jsonget" do
+    it "retrieves a value by key from a json encoded string" do
+      redis.set "info", '{"day": 25, "month": "October", "year": 2013}'
+
+      redis.jsonget("info", "month").should == "October"
+    end
+
+    it "returns nil when the field does not exist" do
+      redis.set "info", '{"day": 25, "month": "October", "year": 2013}'
+
+      redis.jsonget("info", "century").should be_nil
+    end
+
+    it "raises a 'wrong kind of value' error when not used on a string" do
+      redis.rpush "numbers", '{"day": 25, "month": "October", "year": 2013}'
+
+      expect { redis.jsonget("numbers", "month") }.to raise_error {|error|
+        error.should be_a Redis::CommandError
+        error.message.should  match /wrong kind of value/
+        error.message.should_not  match /running script/
+      }
+    end
+  end
 end

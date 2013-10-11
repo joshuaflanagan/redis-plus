@@ -25,6 +25,8 @@ The new commands are available directly from any `Redis` connection instance:
 
 ```ruby
 r = Redis.new
+
+# === LISTS ===
 r.rpush "numbers", "one"
 r.rpush "numbers", "two"
 r.rpush "numbers", "three"
@@ -38,6 +40,13 @@ r.lstrlen "numbers", 2      #=> 5
 
 # retrieve a substring of a string value stored in a list
 r.lstrrange "numbers", 2, 1, 3 #=> "hre"
+
+
+# === JSON ===
+r.set "info", '{"day": 25, "month": "October", "year": 2013}'
+
+# retrieve a value from a json encoded string value
+r.jsonget "info", "month"   #=> "October"
 ```
 
 

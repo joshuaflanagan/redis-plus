@@ -36,5 +36,15 @@ LUA
     end
   end
 
+  def jsonget(key, field)
+    command = <<-LUA
+local v = redis.pcall('get', KEYS[1])
+if v.err then return v end
+local js = cjson.decode(v)
+return js[ARGV[1]]
+LUA
+    self.eval(command, [key], [field])
+  end
+
   include Plus
 end
