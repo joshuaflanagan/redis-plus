@@ -1,7 +1,12 @@
+require 'redis'
 require "redis/plus/version"
 
-module Redis
+class Redis
   module Plus
-    # Your code goes here...
+    def lgetall(key)
+      lrange(key, 0, -1)
+    end
   end
+
+  include Plus
 end
